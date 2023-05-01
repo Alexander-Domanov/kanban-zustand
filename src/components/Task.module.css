@@ -31,7 +31,7 @@
     background: var(--COLOR-DONE);
 }
 
-.task img {
+.task svg {
     height: 1.25rem;
     cursor: pointer;
 }
