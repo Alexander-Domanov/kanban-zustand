@@ -2,10 +2,12 @@ import s from "./Column.module.css"
 import {Task} from "./Task";
 import {useStore} from "../store";
 import {useState} from "react";
+import classNames from "classnames";
 
 export const Column: React.FC<any> = ({state}) => {
     const [text, setText] = useState('')
     const [open, setOpen] = useState(false)
+    const [drop, setDrop] = useState(false)
 
     const tasks = useStore((store) =>
         store.tasks.filter((task) => task.state === state))
@@ -17,10 +19,17 @@ export const Column: React.FC<any> = ({state}) => {
 
     return (
         <div
-            className={s.column}
-            onDragOver={(e) => e.preventDefault()}
+            className={classNames(s.column, drop && [s.drop])}
+            onDragOver={(e) => {
+                setDrop(true)
+                e.preventDefault()
+            }}
+            onDragLeave={(e) => {
+                setDrop(false)
+                e.preventDefault()
+            }}
             onDrop={(e) => {
-                console.log(draggedTask)
+                setDrop(false)
                 moveTask(draggedTask, state)
                 setDraggedTask(null)
             }
