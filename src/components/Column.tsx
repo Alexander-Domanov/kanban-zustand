@@ -10,9 +10,21 @@ export const Column: React.FC<any> = ({state}) => {
     const tasks = useStore((store) =>
         store.tasks.filter((task) => task.state === state))
     const addTask = useStore((store) => store.addTask)
+    const setDraggedTask = useStore((store) => store.setDraggedTask)
+    const draggedTask = useStore((store) => store.draggedTask)
+    const moveTask = useStore((store) => store.moveTask)
+
 
     return (
-        <div className={s.column}>
+        <div
+            className={s.column}
+            onDragOver={(e) => e.preventDefault()}
+            onDrop={(e) => {
+                console.log(draggedTask)
+                moveTask(draggedTask, state)
+                setDraggedTask(null)
+            }
+            }>
             <div className={s.titleWrapper}>
                 <p>{state}</p>
                 <button onClick={() => setOpen(true)}>Add</button>
